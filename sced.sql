@@ -14,6 +14,22 @@ START TRANSACTION;
 SET time_zone = "+00:00";
 
 
+-- phpMyAdmin SQL Dump
+-- version 4.8.4
+-- https://www.phpmyadmin.net/
+--
+-- Servidor: 127.0.0.1
+-- Xerado en: 05 de Nov de 2019 as 23:56
+-- Version do servidor: 10.1.37-MariaDB
+-- Version do PHP: 7.3.0
+
+SET FOREIGN_KEY_CHECKS=0;
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
@@ -23,14 +39,22 @@ SET time_zone = "+00:00";
 -- Base de datos: `sced`
 --
 DROP DATABASE IF EXISTS `sced` ;
+
 CREATE DATABASE IF NOT EXISTS `sced` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 USE `sced`;
 
+--
+-- Usuario perytavalley
+--
 
 DROP USER IF EXISTS 'toor'@'localhost';
 CREATE USER 'toor'@'localhost' IDENTIFIED BY 'toor';
 
 GRANT ALL PRIVILEGES ON `sced`.* TO 'toor'@'localhost' IDENTIFIED BY 'toor';
+
+-- --------------------------------------------------------
+
+
 -- --------------------------------------------------------
 
 --
@@ -40,12 +64,9 @@ GRANT ALL PRIVILEGES ON `sced`.* TO 'toor'@'localhost' IDENTIFIED BY 'toor';
 DROP TABLE IF EXISTS `accion`;
 CREATE TABLE `accion` (
   `id` int(10) NOT NULL,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(255) UNIQUE COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` text COLLATE utf8_spanish_ci NOT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -56,10 +77,8 @@ CREATE TABLE `accion` (
 DROP TABLE IF EXISTS `anhoacademico`;
 CREATE TABLE `anhoacademico` (
   `id` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-
+  `anho` varchar(11) COLLATE utf8_spanish_ci NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -70,18 +89,21 @@ CREATE TABLE `anhoacademico` (
 DROP TABLE IF EXISTS `asignatura`;
 CREATE TABLE `asignatura` (
   `id` int(10) NOT NULL,
-  `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `id_TITULACION` int(10) NOT NULL,
+  `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `id_DEPARTAMENTO` int(10) NOT NULL,
   `id_PROFESOR` varchar(10) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `codigo` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  `codigo` varchar(13) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `contenido` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `creditos` double(5,1) NOT NULL,
   `tipo` enum('OB','OP','FB') COLLATE utf8_spanish_ci NOT NULL,
   `horas` double(5,1) NOT NULL,
   `cuatrimestre` enum('1','2') COLLATE utf8_spanish_ci NOT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+
+-- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `centro`
@@ -90,14 +112,14 @@ CREATE TABLE `asignatura` (
 DROP TABLE IF EXISTS `centro`;
 CREATE TABLE `centro` (
   `id` int(10) NOT NULL,
-  `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `id_UNIVERSIDAD` int(10) NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `ciudad` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `responsable` varchar(9) COLLATE utf8_spanish_ci DEFAULT NULL,
    UNIQUE KEY `uniq_centro` (`nombre`,`id_UNIVERSIDAD`),
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `departamento`
@@ -105,18 +127,15 @@ CREATE TABLE `centro` (
 
 DROP TABLE IF EXISTS `departamento`;
 CREATE TABLE `departamento` (
-  `id` int(10) NOT NULL,
-  `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
+  `id` int(10) NOT NULL, 
   `id_CENTRO` int(10) NOT NULL,
   `codigo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
    UNIQUE KEY `uniq_dep` (`codigo`,`id_CENTRO`),
    UNIQUE KEY `uniq_dep_2` (`nombre`,`id_CENTRO`),
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-
-- --------------------------------------------------------
+-- --------------------------------------------------------
 
 --
 -- Estructura de tabla para la tabla `edificio`
@@ -125,15 +144,12 @@ CREATE TABLE `departamento` (
 DROP TABLE IF EXISTS `edificio`;
 CREATE TABLE `edificio` (
   `id` int(10) NOT NULL,
-  `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `id_UNIVERSIDAD` int(10) NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `ubicacion` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `borrado` tinyint(1) NOT NULL DEFAULT 0,
-    CONSTRAINT UQ_EDIFICIO UNIQUE (id_UNIVERSIDAD,nombre,ubicacion)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-
+  CONSTRAINT UQ_EDIFICIO UNIQUE (id_UNIVERSIDAD,nombre,ubicacion)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -144,15 +160,12 @@ CREATE TABLE `edificio` (
 DROP TABLE IF EXISTS `espacio`;
 CREATE TABLE `espacio` (
   `id` int(10) NOT NULL,
-  `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `id_EDIFICIO` int(10) NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `tipo` enum('aula','despacho') COLLATE utf8_spanish_ci NOT NULL,
+  `tipo` enum('Aula','Despacho') COLLATE utf8_spanish_ci NOT NULL,
   `borrado` tinyint(1) NOT NULL DEFAULT 0,
-    CONSTRAINT UQ_ESPACIO UNIQUE (id_EDIFICIO,nombre,tipo)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-
+  CONSTRAINT UQ_ESPACIO UNIQUE (id_EDIFICIO,nombre,tipo)
+  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -163,11 +176,9 @@ CREATE TABLE `espacio` (
 DROP TABLE IF EXISTS `funcionalidad`;
 CREATE TABLE `funcionalidad` (
   `id` int(10) NOT NULL,
-  `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
+  `nombre` varchar(255) UNIQUE COLLATE utf8_spanish_ci NOT NULL,
   `descripcion` text COLLATE utf8_spanish_ci NOT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -180,13 +191,12 @@ CREATE TABLE `grupo` (
   `id` int(10) NOT NULL,
   `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `id_ASIGNATURA` int(10) NOT NULL,
-  `id_PROFESOR` varchar(10) COLLATE utf8_spanish_ci DEFAULT NULL,
+  `id_TITULACION` int(10) NOT NULL,
   `codigo` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `tipo` enum('GA','GB','GC') COLLATE utf8_spanish_ci NOT NULL,
   `horas` double(5,1) NOT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -220,13 +230,11 @@ CREATE TABLE `horario` (
 DROP TABLE IF EXISTS `profesor`;
 CREATE TABLE `profesor` (
   `dni` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `id_ANHOACADEMICO` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
   `id_DEPARTAMENTO` int(10) NOT NULL,
-  `dedicacion` varchar(10) COLLATE utf8_spanish_ci NOT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+  `dedicacion`varchar(10) COLLATE utf8_spanish_ci NOT NULL,
 
-
+  -- `dedicacion` enum('TC','P1','P2','P3','P4','P5','P6') COLLATE utf8_spanish_ci NOT NULL,
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -241,7 +249,6 @@ CREATE TABLE `rol` (
   `borrado` tinyint(1) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-
 -- --------------------------------------------------------
 
 --
@@ -253,21 +260,6 @@ CREATE TABLE `rol_permiso` (
   `id_ROL` int(10) NOT NULL,
   `id_FUNCIONALIDAD` int(10) NOT NULL,
   `id_ACCION` int(10) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `tfg`
---
-
-DROP TABLE IF EXISTS `tfg`;
-CREATE TABLE `tfg` (
-  `id_tfg` int(11) NOT NULL,
-  `titulo` text COLLATE utf8_spanish_ci NOT NULL,
-  `dni_profesor` varchar(10) COLLATE utf8_spanish_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
@@ -283,11 +275,8 @@ CREATE TABLE `titulacion` (
   `id_CENTRO` int(10) NOT NULL,
   `codigo` varchar(20) COLLATE utf8_spanish_ci NOT NULL,
   `nombre` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
-  `responsable` varchar(9) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-
+  `responsable` varchar(9) COLLATE utf8_spanish_ci DEFAULT NULL, 
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -308,6 +297,7 @@ CREATE TABLE `tutoria` (
   `borrado` tinyint(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
+
 -- --------------------------------------------------------
 
 --
@@ -322,8 +312,6 @@ CREATE TABLE `universidad` (
   `responsable` varchar(9) COLLATE utf8_spanish_ci DEFAULT NULL,
   `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-
-
 -- --------------------------------------------------------
 
 --
@@ -337,10 +325,7 @@ CREATE TABLE `usuario` (
   `apellidos` varchar(255) COLLATE utf8_spanish_ci NOT NULL,
   `email` varchar(255) COLLATE utf8_spanish_ci DEFAULT NULL,
   `password` varchar(128) COLLATE utf8_spanish_ci DEFAULT NULL,
-  `borrado` tinyint(1) NOT NULL DEFAULT 0
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
-
-
+  `borrado` tinyint(1) NOT NULL DEFAULT 0 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
 -- --------------------------------------------------------
 
@@ -354,10 +339,9 @@ CREATE TABLE `usuario_rol` (
   `id_ROL` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
 
-
-
+-- --------------------------------------------------------
 --
--- Índices para tablas volcadas
+-- Indices para tablas volcadas
 --
 
 --
@@ -376,11 +360,11 @@ ALTER TABLE `anhoacademico`
 -- Indices de la tabla `asignatura`
 --
 ALTER TABLE `asignatura`
-  ADD PRIMARY KEY (`id`,`id_ANHOACADEMICO`),
-  ADD UNIQUE KEY `codigo` (`codigo`);
+  ADD PRIMARY KEY (`id`,`id_ANHOACADEMICO`, `id_TITULACION`),
+  ADD UNIQUE KEY `codigo` (`codigo`,`id_ANHOACADEMICO`);
 
 
-
+--
 -- Indices de la tabla `centro`
 --
 ALTER TABLE `centro`
@@ -417,31 +401,25 @@ ALTER TABLE `grupo`
   ADD PRIMARY KEY (`id`,`id_ANHOACADEMICO`, `id_ASIGNATURA`, `id_TITULACION`),
   ADD UNIQUE KEY `codigo` (`codigo`,`id_TITULACION`);
 
+
 --
 -- Indices de la tabla `horario`
 --
 ALTER TABLE `horario`
   ADD PRIMARY KEY (`id`,`id_ANHOACADEMICO`,`id_GRUPO`,`id_ASIGNATURA`, `id_TITULACION`);
+
+
 --
 -- Indices de la tabla `profesor`
 --
 ALTER TABLE `profesor`
-  ADD PRIMARY KEY (`dni`,`id_ANHOACADEMICO`),
-  ADD KEY `id_DEPARTAMENTO` (`id_DEPARTAMENTO`),
-  ADD KEY `id_ANHOACADEMICO` (`id_ANHOACADEMICO`),
-  ADD KEY `profesor_ibfk_1` (`id_DEPARTAMENTO`,`id_ANHOACADEMICO`);
-
---
--- Indices de la tabla `rol`
---
-ALTER TABLE `profesor`
   ADD PRIMARY KEY (`dni`);
---
 --
 -- Indices de la tabla `rol`
 --
 ALTER TABLE `rol`
   ADD PRIMARY KEY (`id`);
+
 --
 -- Indices de la tabla `rol_permiso`
 --
@@ -449,23 +427,11 @@ ALTER TABLE `rol_permiso`
   ADD PRIMARY KEY (`id_ROL`,`id_FUNCIONALIDAD`,`id_ACCION`);
 
 --
--- Indices de la tabla `tfg`
---
-ALTER TABLE `tfg`
-  ADD PRIMARY KEY (`id_tfg`),
-  ADD KEY `dni_profesor` (`dni_profesor`);
-
---
 -- Indices de la tabla `titulacion`
 --
 ALTER TABLE `titulacion`
   ADD PRIMARY KEY (`id`,`id_ANHOACADEMICO`),
-  ADD UNIQUE KEY `codigo` (`codigo`),
-  ADD KEY `id_CENTRO` (`id_CENTRO`),
-  ADD KEY `id_ANHOACADEMICO` (`id_ANHOACADEMICO`),
-  ADD KEY `titulacion_ibfk_1` (`id_CENTRO`,`id_ANHOACADEMICO`),
-  ADD KEY `titulacion_ibfk_2` (`responsable`);
-
+  ADD UNIQUE KEY `codigo` (`codigo`,`id_ANHOACADEMICO`);
 --
 -- Indices de la tabla `tutoria`
 --
@@ -491,6 +457,8 @@ ALTER TABLE `usuario`
 ALTER TABLE `usuario_rol`
   ADD PRIMARY KEY (`id_USUARIO`,`id_ROL`);
 
+
+-- ----------------------------------------------------
 --
 -- AUTO_INCREMENT de las tablas volcadas
 --
@@ -499,46 +467,44 @@ ALTER TABLE `usuario_rol`
 -- AUTO_INCREMENT de la tabla `accion`
 --
 ALTER TABLE `accion`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `asignatura`
 --
 ALTER TABLE `asignatura`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
+
 
 --
--- AUTO_INCREMENT de la tabla `asistenciadocencia`
---
-
 -- AUTO_INCREMENT de la tabla `centro`
 --
 ALTER TABLE `centro`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `departamento`
 --
 ALTER TABLE `departamento`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `edificio`
 --
 ALTER TABLE `edificio`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `espacio`
 --
 ALTER TABLE `espacio`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `funcionalidad`
 --
 ALTER TABLE `funcionalidad`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `grupo`
@@ -552,23 +518,18 @@ ALTER TABLE `grupo`
 ALTER TABLE `horario`
   MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
+
 --
 -- AUTO_INCREMENT de la tabla `rol`
 --
 ALTER TABLE `rol`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `tfg`
---
-ALTER TABLE `tfg`
-  MODIFY `id_tfg` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `titulacion`
 --
 ALTER TABLE `titulacion`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `tutoria`
@@ -580,9 +541,10 @@ ALTER TABLE `tutoria`
 -- AUTO_INCREMENT de la tabla `universidad`
 --
 ALTER TABLE `universidad`
-  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT;
 
---
+
+-- -----------------------------------------------
 -- Restricciones para tablas volcadas
 --
 
@@ -659,8 +621,6 @@ ALTER TABLE `titulacion`
   ADD CONSTRAINT `titulacion_ibfk_2` FOREIGN KEY (`responsable`) REFERENCES `usuario` (`dni`),
     ADD CONSTRAINT `titulacion_ibfk_3` FOREIGN KEY (`id_ANHOACADEMICO`) REFERENCES `anhoacademico` (`id`);
 
-ALTER TABLE `tfg`
-  ADD CONSTRAINT `tfg_ibfk_1` FOREIGN KEY (`dni_profesor`) REFERENCES `profesor` (`dni`);
 
 --
 -- Filtros para la tabla `tutoria`
@@ -684,7 +644,6 @@ ALTER TABLE `usuario_rol`
   ADD CONSTRAINT `usuario_rol_ibfk_2` FOREIGN KEY (`id_ROL`) REFERENCES `rol` (`id`);
 
 COMMIT;
-
 
 
 --
