@@ -31,10 +31,10 @@ USE `sced`;
 -- Usuario perytavalley
 --
 
-DROP USER IF EXISTS 'perytavalley'@'localhost';
-CREATE USER 'perytavalley'@'localhost' IDENTIFIED BY 'perytavalley';
+DROP USER IF EXISTS 'toor'@'localhost';
+CREATE USER 'toor'@'localhost' IDENTIFIED BY 'toor';
 
-GRANT ALL PRIVILEGES ON `sced`.* TO 'perytavalley'@'localhost' IDENTIFIED BY 'perytavalley';
+GRANT ALL PRIVILEGES ON `sced`.* TO 'toor'@'localhost' IDENTIFIED BY 'toor';
 
 -- --------------------------------------------------------
 
