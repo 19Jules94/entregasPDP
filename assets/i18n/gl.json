@@ -1,0 +1,101 @@
+{
+  "lan": "gl",
+  "app": {
+    "saludo": "Ola ",
+    "login": "Iniciar Sesión",
+    "logout": "Sair",
+    "autores": "Autores",
+    "idioma": "Idioma",
+    "perfil": "Perfil",
+    "espanol": "Castelan",
+    "gallego": "Galego",
+    "options": "Opcións",
+    "volver": "Volver",
+    "cancelar": "Cancelar",
+    "no-result": "Non hai ningún resultado para amosar"
+  },
+  "profile": {
+    "perfil": "Perfil",
+    "dni": "DNI",
+    "nombre": "Nome",
+    "apellidos": "Apelidos",
+    "email": "Enderezo electrónico",
+    "edit": "Cambiar contrasinal",
+    "password": "Novo Contrasinal", 
+    "cancelar": "Cancelar"   
+  },
+
+
+  "login": {
+    "DNI": "DNI",
+    "Password": "Contrasinal",
+    "restric4": "Mínimo 4 caracteres",
+    "restric20": "Máximo 20 caracteres",
+    "aviso": "Este campo es obligatorio",
+    "error": "DNI ou contrasinal incorrectos"
+
+  },
+  "panel-principal": {
+    "panel-principal": "Panel Principal",
+    "gestion-acciones": "Xestión de Accións",
+    "gestion-funcionalidades": "Xestión de Funcionalidades",
+    "gestion-permisos": "Xestión de Permisos",
+    "gestion-anho-academico": "Xestión de Anos Académicos",
+    "gestion-profesores": "Xestión de Profesores",
+    "gestion-usuarios": "Xestión de Usuarios",
+    "gestion-roles-usuario": "Xestión de Roles de Usuario",
+    "gestion-roles": "Xestión de Roles",
+    "gestion-titulaciones": "Xestión de Titulacións",
+    "gestion-centros": "Xestión de Centros",
+    "gestion-universidades": "Xestión de Universidades",
+    "gestion-edificios": "Xestión de Edificios",
+    "gestion-tutorias": "Xestión de Titorías",
+    "gestion-departamento": "Xestión de Departamentos",
+    "gestion-asignaturas": "Xestión de Materias",
+    "gestion-espacios": "Xestión de Espazos",
+    "gestion-grupos": "Xestión de Grupos",
+    "gestion-horarios": "Xestión de Horarios",
+    "gestion-tfg": "TFG", 
+    "calendario": "Calendario",
+    "acceder": "Acceder",
+    "cadena-buscar": "Buscar..."
+  },
+  "gestion-acciones": {
+    "showall-acciones": "Ver todas as accións",
+    "add-accion": "Engadir acción",
+    "delete-accion": "Eliminar acción",
+    "delete-msg": "Estás seguro de eliminar esta acción?",
+    "accion": "Acción",
+    "descripcion": "Descrición",
+    "cancelar": "Cancelar",
+    "add-nombre-min": "O nome debe ter un mínimo de 3 caracteres",
+    "add-nombre-max": "O nome non pode superar os 30 caracteres",
+    "add-nombre-req": "O nome é obrigatorio",
+    "add-nombre-pat": "O nome debe ter caracteres alfabéticos",
+    "add-descripcion-min": "A descripción debe ter un mínimo de 3 caracteres",
+    "add-descripcion-max": "A descripción non pode superar os 300 caracteres",
+    "add-descripcion-req": "Campo obrigatorio",
+    "add-descripcion-pat": "So caracteres alfabéticos"
+  },
+  "gestion-funcionalidades": {
+    "funcionalidad": "Funcionalidade",
+    "showall-funcionalidades": "Ver todas as funcionalidades",
+    "add-funcionalidad": "Engadir funcionalidade",
+    "delete-funcionalidad": "Eliminar funcionalidade",
+    "delete-msg": "Estás seguro de eliminar esta funcionalidade?",
+    "descripcion": "Descrición",
+    "cancelar": "Cancelar",
+    "add-nombre-min": "O nome debe ter un mínimo de 3 caracteres",
+    "add-nombre-max": "O nome non pode superar os 30 caracteres",
+    "add-nombre-req": "Campo obrigatorio",
+    "add-nombre-pat": "So caracteres alfabéticos",
+    "add-descripcion-min": "A descripción debe ter un mínimo de 3 caracteres",
+    "add-descripcion-max": "A descripción non pode superar os 300 caracteres",
+    "add-descripcion-req": "Campo obrigatorio",
+    "add-descripcion-pat": "So caracteres alfabéticos"
+  },
+  "gestion-usuarios": {
+    "cancelar": "Cancelar",
+    "volver": "Volver"
+  }
+}

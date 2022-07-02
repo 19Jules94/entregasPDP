@@ -1,0 +1,29 @@
+@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@500&display=swap");
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  display: table;
+  font-family: "Nunito", sans-serif!important;
+}
+.bg-dark {
+  background-color: #073349 !important;
+}
+body {
+  background-color: #fafafa;
+}
+
+#enc-log {
+  background-color: #073349 !important;
+}
+#h3-log {
+  color: white;
+}
+
+i{
+  margin-right: 1em;
+}
+
+#login{margin-top: 10px;}

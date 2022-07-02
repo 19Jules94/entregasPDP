@@ -1,0 +1,104 @@
+{
+  "lan": "es",
+  "app": {
+    "saludo": "Hola ",
+    "login": "Iniciar Sesión",
+    "logout": "Salir",
+    "autores": "Autores",
+    "idioma": "Idioma",
+    "perfil": "Perfil",
+    "espanol": "Castellano",
+    "gallego": "Gallego",
+    "options": "Opciones",
+    "volver": "Volver",
+    "cancelar": "Cancelar",
+    "no-result": "No hay ningún resultado para mostrar"
+  },
+  "profile": {
+    "perfil": "Perfil",
+    "dni": "DNI",
+    "nombre": "Nombre",
+    "apellidos": "Apellidos",
+    "email": "Correo electrónico",
+    "edit": "Cambiar contraseña",
+    "password": "Nueva Contraseña",
+    "rep-password": "Vuelve a introducir la nueva Contraseña",
+    "cancelar": "Cancelar"
+  },
+
+  "login": {
+    "DNI": "DNI",
+    "Password": "Contraseña",
+    "restric4": "Mínimo 4 caracteres",
+    "restric20": "Máximo 20 caracteres",
+    "aviso": "Este campo es obligatorio",
+    "error": "DNI ou contrasinal incorrectos"
+
+  },
+  "panel-principal": {
+    "panel-principal": "Panel Principal",
+    "gestion-acciones": "Acciones",
+    "gestion-funcionalidades": "Funcionalidades",
+    "gestion-permisos": "Permisos",
+    "gestion-anho-academico": "Años Académicos",
+    "gestion-profesores": "Profesores",
+    "gestion-usuarios": "Usuarios",
+    "gestion-roles-usuario": "Roles de Usuario",
+    "gestion-roles": "Roles",
+    "gestion-titulaciones": "Titulaciones",
+    "gestion-centros": "Centros",
+    "gestion-universidades": "Universidades",
+    "gestion-edificios": "Edificios",
+    "gestion-tutorias": "Tutorías",
+    "gestion-departamento": "Departamentos",
+    "gestion-asignaturas": "Asignaturas",
+    "gestion-espacios": "Espacios",
+    "gestion-grupos": "Grupos",
+    "gestion-horarios": "Horarios",
+    "gestion-tfg": "TFG", 
+    "calendario": "Calendario",
+    "msg-calendario": "Accede para consultar el calendario",
+    "acceder": "Acceder",
+    "cadena-buscar": "Buscar..."
+  },
+  "gestion-acciones": {
+    "showall-acciones": "Ver todas las acciones",
+    "add-accion": "Añadir acción",
+    "delete-accion": "Eliminar acción",
+    "accion": "Acción",
+    "descripcion": "Descripción",
+    "cancelar": "Cancelar",
+    "add-nombre-min": "El nombre debe tener un mínimo de 3 caracteres",
+    "add-nombre-max": "El nombre debe tener un máximo de 30 caracteres",
+    "add-nombre-req": "Campo obligatorio",
+    "add-nombre-pat": "Solo caracteres alfabeticos",
+    "add-descripcion-min": "La descripción debe tener un mínimo de 3 caracteres",
+    "add-descripcion-max": "La descripción no puede superar los 300 caracteres",
+    "add-descripcion-req": "Campo obligatorio",
+    "add-descripcion-pat": "Solo caracteres alfabeticos"
+  },
+  "gestion-funcionalidades": {
+    "funcionalidad": "Funcionalidad",
+    "showall-funcionalidades": "Ver todas las funcionalidades",
+    "add-funcionalidad": "Añadir funcionalidad",
+    "delete-funcionalidad": "Eliminar funcionalidad",
+    "accion": "Acción",
+    "descripcion": "Descripción",
+    "cancelar": "Cancelar",
+    "add-nombre-min": "El nombre debe tener un mínimo de 3 caracteres",
+    "add-nombre-max": "El nombre debe tener un máximo de 30 caracteres",
+    "add-nombre-req": "Campo obligatorio",
+    "add-nombre-pat": "Solo caracteres alfabeticos",
+    "add-descripcion-min": "La descripción debe tener un mínimo de 3 caracteres",
+    "add-descripcion-max": "La descripción no puede superar los 300 caracteres",
+    "add-descripcion-req": "Campo obligatorio",
+    "add-descripcion-pat": "Solo caracteres alfabeticos"
+  },
+
+  "gestion-usuarios": {
+    "cancelar": "Cancelar",
+    "volver": "Volver"
+  }
+ 
+
+}
