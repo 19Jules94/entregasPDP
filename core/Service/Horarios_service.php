@@ -37,54 +37,7 @@ class Horarios_service
 
     function addHorario($id_ANHOACADEMICO, $id_PROFESOR, $id_ESPACIO, $id_GRUPO, $id_ASIGNATURA, $id_TITULACION, $fecha, $hora_inicio, $hora_fin, $asistencia, $dia)
     {
-        if (validarID($id_ANHOACADEMICO)!=true) {
-            throw new ValidationException("El id de anho académico introducido no es válido.");
-        }
-
-        if (validarDNI($id_PROFESOR)!=true) {
-            throw new ValidationException("El id de profesor introducido no es válido.");
-        }
-
-        if (validarID($id_ESPACIO)!=true) {
-            throw new ValidationException("El id de espacio introducido no es válido.");
-        }
-
-        if (validarID($id_GRUPO)!=true) {
-            throw new ValidationException("El id de grupo introducido no es válido.");
-        }
-
-        if (validarID($id_ASIGNATURA)!=true) {
-            throw new ValidationException("El id de asignatura introducido no es válido.");
-        }
-
-        if (validarID($id_TITULACION)!=true) {
-            throw new ValidationException("El id de titulación introducido no es válido.");
-        }
-
-        if (validarFecha($fecha)!=true) {
-            throw new ValidationException("La fecha introducida no sigue el formato YYYY-mm-dd.");
-        }
-
-        if (validarHora($hora_inicio)!=true) {
-            throw new ValidationException("La hora de inicio introducida no sigue el formato XX:XX.");
-        }
-
-        if (validarHora($hora_fin)!=true) {
-            throw new ValidationException("La hora de fin introducida no sigue el formato XX:XX.");
-        }
-
-        if (validarHorasHorario($hora_inicio,$hora_fin)!=true) {
-            throw new ValidationException("La hora de inicio debe ser menor a la de fin.");
-        }
-
-        if (validarAsistencia($asistencia)!=true) {
-            throw new ValidationException("La asistencia introducida no es 'si' o 'no'.");
-        }
-
-        if (validarDia($dia)!=true) {
-            throw new ValidationException("El día introducido no es 'lunes', 'martes', 'miercoles', 'jueves' o 'viernes'.");
-        }
-
+      
         try {
             return $this->HORARIOS_M->addHorario($id_ANHOACADEMICO, $id_PROFESOR, $id_ESPACIO, $id_GRUPO, $id_ASIGNATURA, $id_TITULACION, $fecha, $hora_inicio, $hora_fin, $asistencia, $dia);
         } catch (DBException $e) {

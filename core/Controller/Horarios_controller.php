@@ -2,7 +2,7 @@
 
 include_once './Controller/Basic_Controller.php';
 include_once './Service/Horarios_service.php';
-include_once './Utils/ResourceNotFound.php';
+include_once './utils/ResourceNotFound.php';
 
 class Horarios_controller extends Basic_Controller
 {
