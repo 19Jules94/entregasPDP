@@ -4,7 +4,7 @@ include_once './Model/Base_model.php';
 include_once './utils/AuthJWT.php';
 
 
-class Login_model extends Base_Model{
+class Login_model extends Base_model{
 
     private $DNI;
     private $PASS;

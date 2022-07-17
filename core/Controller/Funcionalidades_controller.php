@@ -16,33 +16,33 @@ class Funcionalidades_controller extends Basic_Controller
         if (!$this->IS_LOGGED) {
             $this->unauthorized();
         } else if (!isset($_REQUEST['action'])) {
-            $this->notFound("Es necesario indicar una acción");
+            $this->NoEncontrado("Es necesario indicar una acción");
         } else {
             switch ($_REQUEST['action']) {
-                case 'add': //añadir
+                case 'add':
                     $this->canUseAction("ACCION", "ADD") ? $this->addFuncionalidad() : $this->forbidden("ACCION", "ADD");
                     break;
-                case 'showall': //ver todas
+                case 'showall':
                     $this->canUseAction("ACCION", "SHOWALL") ? $this->mostrarTodas() : $this->forbidden("ACCION", "SHOWALL");
                     break;
-                 case 'delete'://borrar
+                 case 'delete':
                     $this->canUseAction("ACCION", "DELETE") ? $this->deleteFuncionalidad() : $this->forbidden("ACCION", "DELETE");
                     break;
-                default: //caso default
-                    $this->notFound("No se puede realizar esa acción");
+                default: 
+                    $this->NoEncontrado("No se puede realizar esa acción");
             }
         }
     }
     function mostrarTodas()
     {
         $Funcionalidades_Service = new Funcionalidades_service();
-        $resultado = $Funcionalidades_Service->showall();
-        $this->echoOk($resultado);
+        $resultado = $Funcionalidades_Service->mostrarTodas();
+        $this->TodoOK($resultado);
     }
     function addFuncionalidad()
     {
         if (!isset($_POST['nombre']) && !isset($_POST['descripcion'])) {
-            $this->notFound("Es necesario enviar el nombre y descripcion para añadir una funcionalidad");
+            $this->NoEncontrado("Es necesario enviar el nombre y descripcion para añadir una funcionalidad");
         } else {
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
@@ -51,32 +51,39 @@ class Funcionalidades_controller extends Basic_Controller
             $Funcionalidades_Service = new Funcionalidades_service();
             $resultado = $Funcionalidades_Service->addFuncionalidad($nombre, $descripcion);
             if ($resultado) {
-                $this->echoOk(array("resultado" => strval($resultado)));
+                $this->TodoOK(array("resultado" => strval($resultado)));
             } else {
-                $this->echoOk(array("resultado" => "La funcionalidad no se pudo añadir"));
+                $this->TodoOK(array("resultado" => "La funcionalidad no se pudo añadir"));
             }
         } catch (ValidationException $ex) {
-            $this->notFound($ex->getERROR());
+            $this->NoEncontrado($ex->getERROR());
         }
+        catch (DBException $ex) {
+            switch ($ex->getERROR()){
+                case "4002":
+                    $this->ErrorDuplicado("Funcionalidad duplicada");
+                    break;
+            }
         }
-    }
 
+    }
+}
     function deleteFuncionalidad()
     {
         if (!isset($_POST['id'])) {
-            $this->notFound("Es necesario enviar el id para borrar");
+            $this->NoEncontrado("Es necesario enviar el id para borrar");
         } else {
             $id = $_POST['id'];
             try {
                 $Funcionalidades_Service = new Funcionalidades_service();
                 $resultado = $Funcionalidades_Service->deleteFuncionalidad($id);
                 if ($resultado) {
-                    $this->echoOk(array("resultado" => "Funcionalidad eliminada"));
+                    $this->TodoOK(array("resultado" => "Funcionalidad eliminada"));
                 } else {
-                    $this->cascadeError(array("resultado" => "La Funcionalidad no se pudo eliminar"));
+                    $this->ErrorRestriccion(array("resultado" => "La Funcionalidad no se pudo eliminar"));
                 }
             }catch (ValidationException $ex) {
-                $this->notFound($ex->getERROR());
+                $this->NoEncontrado($ex->getERROR());
             }
         }
 

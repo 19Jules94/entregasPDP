@@ -5,33 +5,41 @@ include_once './utils/ValidationException.php';
 
 class Funcionalidades_service
 {
-    private $FUNCIONALIDADES_MODEL;
+    private $FUNCIONALIDAD_M;
 
     function __construct()
     {
-        $this->FUNCIONALIDADES_MODEL = new Funcionalidades_model();
+        $this->FUNCIONALIDAD_M = new Funcionalidades_model();
     }
-    function showall()
-    {
-        return $this->FUNCIONALIDADES_MODEL->mostrarFuncionalidades();
-    }
-
     function addFuncionalidad($nombre, $descripcion)
     {
-        if (validarNombreAccion($nombre) == true && validarDescripcionAccion($nombre) == true) {
-
-            return $this->FUNCIONALIDADES_MODEL->addFuncionalidad($nombre, $descripcion);
-        } else {
-            return null;
+        if (validarNombreFuncionalidad($nombre)!=true){
+            throw new ValidationException("El nombre no es válido, deben ser entre 3 y 20 caracteres alfabeticos");
         }
+
+        if (validarDescripcionFuncionalidad($descripcion)!=true){
+            throw new ValidationException("La descripcion no es válida, deben ser entre 3 y 200 caracteres alfabeticos");
+        }
+
+        try {
+            return $this->FUNCIONALIDAD_M->addFuncionalidad($nombre, $descripcion);
+        }catch (DBException $e){
+            throw $e;
+        }
+    }
+
+    function mostrarTodas()
+    {
+        return $this->FUNCIONALIDAD_M->mostrarFuncionalidades();
     }
 
     function deleteFuncionalidad($id)
     {
-        if (validarID($id) == true) {
-            return $this->FUNCIONALIDADES_MODEL->deleteFuncionalidad($id);
-        } else {
-            return null;
+        if (validarID($id)!=true){
+            throw new ValidationException("El id proporcionado no es válido");
         }
+        return $this->FUNCIONALIDAD_M->deleteFuncionalidad($id);
     }
+
+   
 }

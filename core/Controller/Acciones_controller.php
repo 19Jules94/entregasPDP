@@ -16,63 +16,78 @@ class Acciones_controller extends Basic_Controller
         if (!$this->IS_LOGGED) {
             $this->unauthorized();
         } else if (!isset($_REQUEST['action'])) {
-            $this->notFound("Es necesario indicar una acción");
+            $this->NoEncontrado("Es necesario indicar una acción");
         } else {
             switch ($_REQUEST['action']) {
-                case 'add': //añadir
+                case 'add': 
                     $this->canUseAction("ACCION", "ADD") ? $this->addAccion() : $this->forbidden("ACCION", "ADD");
                     break;
-                case 'showall': //ver todas
+                case 'showall': 
                     $this->canUseAction("ACCION", "SHOWALL") ? $this->mostrarTodas() : $this->forbidden("ACCION", "SHOWALL");
                     break;
-                 case 'delete'://borrar
+                 case 'delete':
                     $this->canUseAction("ACCION", "DELETE") ? $this->deleteAccion() : $this->forbidden("ACCION", "DELETE");
                     break;
-                default: //caso default
-                    $this->notFound("No se puede realizar esa acción");
+                default: 
+                    $this->NoEncontrado("No se puede realizar esa acción");
             }
         }
     }
     function mostrarTodas()
     {
         $Acciones_Service = new Acciones_service();
-        $resultado = $Acciones_Service->showall();
-        $this->echoOk($resultado);
+        $resultado = $Acciones_Service->mostrarTodas();
+        $this->TodoOK($resultado);
     }
     function addAccion()
     {
         if (!isset($_POST['nombre']) && !isset($_POST['descripcion'])) {
-            $this->notFound("Es necesario enviar el nombre y descripcion para añadir una accion");
+            $this->NoEncontrado("Es necesario enviar el nombre y descripcion para añadir una accion");
         } else {
             $nombre = $_POST['nombre'];
             $descripcion = $_POST['descripcion'];
 
-         
+         try{
             $Acciones_Service = new Acciones_service();
             $resultado = $Acciones_Service->addAccion($nombre, $descripcion);
             if ($resultado) {
-                $this->echoOk(array("resultado" => strval($resultado)));
+                $this->TodoOK(array("resultado" => strval($resultado)));
             } else {
-                $this->echoOk(array("resultado" => "La acción no se pudo añadir"));
+                $this->TodoOK(array("resultado" => "La acción no se pudo añadir"));
             }
+        }catch (ValidationException $ex) {
+            $this->NoEncontrado($ex->getERROR());
+        }
+        catch (DBException $ex) {
+
+            switch ($ex->getERROR()){
+                case "4002":
+                    $this->ErrorDuplicado("Accion duplicada");
+                    break;
+            }
+
         }
     }
+}
 
     function deleteAccion()
     {
         if (!isset($_POST['id'])) {
-            $this->notFound("Es necesario enviar el id para borrar");
+            $this->NoEncontrado("Es necesario enviar el id para borrar");
         } else {
             $id = $_POST['id'];
-          
+          try{
                 $Acciones_Service = new Acciones_service();
                 $resultado = $Acciones_Service->deleteAccion($id);
                 if ($resultado) {
-                    $this->echoOk(array("resultado" => "Acción eliminada"));
+                    $this->TodoOK(array("resultado" => "Acción eliminada"));
                 } else {
-                    $this->notFound(array("resultado" => "La acción no se pudo eliminar"));
+                    $this->NoEncontrado(array("resultado" => "La acción no se pudo eliminar"));
                 }
           
+            } catch (ValidationException $ex) {
+                $this->NoEncontrado($ex->getERROR());
+            }
         }
 
     }

@@ -42,7 +42,7 @@ class Basic_Controller
         echo json_encode($toret);
     }
 
-    function notFound($msg)
+    function NoEncontrado($msg)
     {
         $toret = array("STATUS" => "NOK", "CODE" => "404", "RESOURCES" => array("MSG" => $msg));
         echo json_encode($toret);
@@ -54,18 +54,54 @@ class Basic_Controller
         echo json_encode($toret);
     }
 
-    function echoOk($RESOURCES)
+    function TodoOK($RESOURCES)
     {
         $toret = array("STATUS" => "OK", "CODE" => "200", "RESOURCES" => $RESOURCES);
         echo json_encode($toret);
     }
 
-    function cascadeError($msg){
-       
-        $toret = array("STATUS" => "NOK", "CODE" => "1451", "RESOURCES" =>$msg);
+
+
+    function ErrorRestriccion($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "4001", "RESOURCES" => $RESOURCES);
+        echo json_encode($toret);
+    }
+    
+    function ErrorDuplicado($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "4002", "RESOURCES" => $RESOURCES);
         echo json_encode($toret);
     }
 
-   
+    function ErrorNoExistente($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "4004", "RESOURCES" => $RESOURCES);
+        echo json_encode($toret);
+    }
+
+    function ErrorRecursoNoEncontrado($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "4005", "RESOURCES" => $RESOURCES);
+        echo json_encode($toret);
+    }
+
+    function ErrorEspacioOcupado($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "40011", "RESOURCES" => $RESOURCES);
+        echo json_encode($toret);
+    }
+
+    function ErrorGrupoOcupado($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "40012", "RESOURCES" => $RESOURCES);
+        echo json_encode($toret);
+    }
+
+    function ErrorProfesorOcupado($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "40013", "RESOURCES" => $RESOURCES);
+        echo json_encode($toret);
+    }
   
 } 
