@@ -159,5 +159,42 @@ class Profesores_model extends Base_model
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
 
-    
+    function addPOD(array $profesores){
+
+        $this->db->begin_transaction(MYSQLI_TRANS_START_WITH_CONSISTENT_SNAPSHOT);
+        $sql = "INSERT INTO profesor (dni, id_DEPARTAMENTO, dedicacion, borrado) VALUES (?, ?, ?, 0)";
+        $stmt = $this->db->prepare($sql);
+
+        foreach ($profesores as $profesor) {
+
+            $departamento = $this->db->query("SELECT id FROM departamento WHERE codigo = '" . $profesor[4] . "'");
+            if ($departamento) {
+                $departamento = $departamento->fetch_all(MYSQLI_ASSOC);
+
+                if (count($departamento) == 1) {
+
+                    $departamentoId = $departamento[0]['id'];
+
+                    $usuario = $this->db->query("SELECT dni FROM usuario WHERE dni = '" . $profesor[0] . "'");
+
+                    if ($usuario) {
+                        $usuario = $usuario->fetch_all(MYSQLI_ASSOC);
+
+                        if (count($usuario) == 1) {
+                            $stmt->bind_param("sss", $profesor[0], $departamentoId, $profesor[5]);
+                            $stmt->execute();
+                        }
+                    }
+
+                }
+            }
+
+        }
+
+        $this->db->commit();
+
+        $this->db->close();
+
+        return true;
+    }
 }

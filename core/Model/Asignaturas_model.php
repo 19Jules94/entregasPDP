@@ -173,6 +173,66 @@ class Asignaturas_model extends Base_Model
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
 
+    public function addPDA(array $informacionDepurada)
+    {
 
+
+        $asignaturas = $informacionDepurada['asignaturas'];
+        $cod_titulacion = $informacionDepurada['cod_titulacion'];
+        $anho_academico = $informacionDepurada['anho_academico'];
+
+
+        $this->db->begin_transaction(MYSQLI_TRANS_START_WITH_CONSISTENT_SNAPSHOT);
+
+
+        $resultado = $this->db->query("SELECT id FROM titulacion WHERE codigo = '" . $cod_titulacion . "' AND id_ANHOACADEMICO = '" . $anho_academico . "'");
+
+        if ($resultado) {
+            $resultado = $resultado->fetch_all(MYSQLI_ASSOC);
+
+            if (count($resultado) == 1) {
+
+                $idTitulacion = $resultado[0]['id'];
+
+                $sql = "INSERT INTO `asignatura`(`id_TITULACION`, `id_ANHOACADEMICO`, `id_DEPARTAMENTO`
+                        , `codigo`, `nombre`, `contenido`, `creditos`, `tipo`, `horas`, `cuatrimestre`, `borrado`)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 0)";
+
+                $stmt = $this->db->prepare($sql);
+
+
+                foreach ($asignaturas as $asignatura) {
+
+                    $resultadoDep = $this->db->query("SELECT id FROM departamento WHERE codigo = '" . $asignatura['departamento'] . "'")->fetch_all(MYSQLI_ASSOC);
+                    $contenido = "";
+                    if (count($resultadoDep) == 1) {
+
+                        $stmt->bind_param("ssssssssss",
+                            $idTitulacion,
+                            $anho_academico,
+                            $resultadoDep[0]['id'],
+                            $asignatura['codigo'],
+                            $asignatura['nombre'],
+                            $contenido,
+                            $asignatura['creditos'],
+                            $asignatura['tipo'],
+                            $asignatura['horas'],
+                            $asignatura['cuatrimestre']);
+
+                        $stmt->execute();
+
+                    }
+
+                }
+
+            }
+        }
+
+        $this->db->commit();
+
+        $this->db->close();
+
+        return true;
+    }
 
 }

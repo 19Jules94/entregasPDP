@@ -115,5 +115,36 @@ class Departamentos_model extends Base_Model
         return $resultado->fetch_all(MYSQLI_ASSOC);
     }
 
-  
+    function addPOD(array $departamentos){
+
+        $nombre_centro=$departamentos[0][2];
+        $this->db->begin_transaction(MYSQLI_TRANS_START_WITH_CONSISTENT_SNAPSHOT);
+
+        $resultado = $this->db->query("SELECT id FROM centro WHERE nombre = '" . $nombre_centro . "'");
+
+        if($resultado){
+
+            $resultado = $resultado->fetch_all(MYSQLI_ASSOC);
+
+            if(count($resultado)==1){
+                $idCentro = $resultado[0]['id'];
+                $sql="INSERT INTO departamento (id_CENTRO, codigo, nombre, borrado) VALUES (?, ?, ?, 0)";
+
+                $stmt = $this->db->prepare($sql);
+
+                foreach ($departamentos as $dep){
+                    $stmt->bind_param("iss", $idCentro, $dep[0], $dep[1]);
+
+                    $stmt->execute();
+                }
+            }
+        }
+
+
+        $this->db->commit();
+
+        $this->db->close();
+
+        return true;
+    }
 }

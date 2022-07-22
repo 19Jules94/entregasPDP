@@ -79,7 +79,11 @@ class Basic_Controller
         $toret = array("STATUS" => "NOK", "CODE" => "4004", "RESOURCES" => $RESOURCES);
         echo json_encode($toret);
     }
-
+    function errorSubirArchivo($RESOURCES)
+    {
+        $toret = array("STATUS" => "NOK", "CODE" => "5001", "RESOURCES" => $RESOURCES);
+        echo json_encode($toret);
+    }
     function ErrorRecursoNoEncontrado($RESOURCES)
     {
         $toret = array("STATUS" => "NOK", "CODE" => "4005", "RESOURCES" => $RESOURCES);

@@ -73,8 +73,14 @@ if (!isset($_REQUEST['controller'])) {
             break;
         case 'tutorias':
             new Tutorias_controller();
+        case 'pod':
+            new POD_Controller();
+            break;
+        case 'pda':
+            new PDA_Controller();
             break;
             
+
         default:
             http_response_code(400);
     }

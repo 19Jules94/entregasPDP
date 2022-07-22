@@ -116,5 +116,22 @@ class Usuarios_model extends Base_model
 
         return $resultado;
     }
- 
+    function addPOD(array $profesores){
+
+        $this->db->begin_transaction(MYSQLI_TRANS_START_WITH_CONSISTENT_SNAPSHOT);
+        $sql = "INSERT INTO usuario (dni, nombre, apellidos, email, password, borrado) VALUES (?, ?, ?, ?, ?, 0 )";
+        $stmt = $this->db->prepare($sql);
+
+                foreach ($profesores as $profesor) {
+                    $stmt->bind_param("sssss",$profesor[0], $profesor[1], $profesor[2], $profesor[3], $profesor[0]);
+
+                    $stmt->execute();
+                }
+
+        $this->db->commit();
+
+        $this->db->close();
+
+        return true;
+    }
 }
